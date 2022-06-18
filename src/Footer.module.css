@@ -1,0 +1,36 @@
+.footerParent {
+    padding-bottom: 1%;
+}
+
+.MDBParent {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    /* height: 80vh; */
+
+    margin: 6% 1%;
+    margin-bottom: 0%;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+.socialIcons {
+    color: black !important;
+    border: 1px solid black !important;
+    /* transition-duration: 0.5s; */
+}
+
+.socialIcons:hover {
+    color: white !important;
+    background-color: black !important;
+}
+
+@media only screen and (max-width: 768px){
+    .inputBox{
+        width:50%;
+        margin:auto;
+    }
+}
