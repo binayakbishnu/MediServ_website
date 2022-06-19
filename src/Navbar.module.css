@@ -3,7 +3,7 @@
 }
 
 .bStrapParent {
-    background-color: rgba(255, 255, 255, 0.25) !important;
+    background-color: rgba(255, 255, 255, 0.45) !important;
     backdrop-filter: blur(5px);
 
     /* margin:0% 1%; */
@@ -30,7 +30,9 @@
 }
 
 .logo {
-    width: 100px;
+    width: 120px;
+    padding: 0%;
+    margin: 0%;
 }
 
 /* .leftLinks{
@@ -45,7 +47,7 @@
     /* border-left: 1px solid black; */
 
     color: #000000 !important;
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 @media only screen and (max-width: 768px) {}
