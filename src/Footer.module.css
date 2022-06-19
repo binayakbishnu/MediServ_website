@@ -36,6 +36,20 @@
     background-color: rgba(0, 0, 0, 0.0) !important;
 }
 
+.products:hover{
+    transition-delay: 0.5;
+    text-decoration: underline !important;
+}
+.usefulLinks:hover{
+    transition-delay: 0.5;
+    text-decoration: underline !important;
+}
+
+.galleryPics{
+    height: 100px;
+    object-fit: cover;
+}
+
 @media only screen and (max-width: 768px) {
     .inputBox {
         width: 50%;
