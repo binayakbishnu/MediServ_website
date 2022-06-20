@@ -1,20 +1,11 @@
 import React from 'react';
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Switch,
-  // Link,
-  Outlet
-} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import './App.css';
 
 import Nav from './Nav';
 import Footer from './Footer';
-import HomePage from './HomePage/HomePage';
-import ConsultationForm from './ConsultationPage/ConsultationForm';
 
 // import HomePage from './Pages/HomePage'
 // import MoreProjects from './Pages/MoreProjects';
@@ -40,6 +31,7 @@ function App() {
 
       </BrowserRouter> */}
       <Nav />
+      {/* <Footer /> */}
       <Outlet />
     </div>
   );

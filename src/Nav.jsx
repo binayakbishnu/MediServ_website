@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import * as ReactBootstrap from 'react-bootstrap'
@@ -7,10 +7,8 @@ import * as ReactBootstrap from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import { faBehance } from '@fortawesome/free-brands-svg-icons'
 import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-import { faContactCard } from '@fortawesome/free-regular-svg-icons'
 
 import navStyles from './Navbar.module.css'
 import logo from './assets/logo.png'
@@ -30,7 +28,7 @@ function Nav() {
                         <NavLink
                             className={`${navStyles.links} ${navStyles.brandLink}`}
                             // activeClassName="is-active"
-                            to="/"
+                            to="/mainApp"
                             exact
                         >
                             <ReactBootstrap.Image src={logo} className={`${navStyles.logo} `} fluid />
@@ -44,7 +42,7 @@ function Nav() {
                                 <NavLink
                                     className={`text-decoration-none text-black`}
                                     // activeClassName="is-active"
-                                    to="/"
+                                    to="/mainApp"
                                     exact
                                 >
                                     Home
@@ -54,7 +52,7 @@ function Nav() {
                                 <NavLink
                                     className={`text-decoration-none text-black`}
                                     // activeClassName="is-active"
-                                    to="/consultationForm"
+                                    to="/mainApp/consultationForm"
                                     exact
                                 >
                                     Consult
@@ -64,7 +62,7 @@ function Nav() {
                                 <NavLink
                                     className={`text-decoration-none text-black text-black`}
                                     activeClassName="is-active"
-                                    to="/orderForm"
+                                    to="/mainApp/orderForm"
                                     exact
                                 >
                                     Order
@@ -76,7 +74,7 @@ function Nav() {
                                     <NavLink
                                         className={`text-decoration-none text-white`}
                                         activeClassName="is-active"
-                                        to="/profilePage"
+                                        to="/mainApp/profilePage"
                                         exact
                                     >
                                         Edit Profile
@@ -86,7 +84,7 @@ function Nav() {
                                     <NavLink
                                         className={`text-decoration-none text-white`}
                                         activeClassName="is-active"
-                                        to="/paymentHistory"
+                                        to="/mainApp/paymentHistory"
                                         exact
                                     >
                                         Payment History
