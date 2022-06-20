@@ -31,8 +31,8 @@ function App() {
 
       </BrowserRouter> */}
       <Nav />
-      {/* <Footer /> */}
       <Outlet />
+      <Footer />
     </div>
   );
 }
