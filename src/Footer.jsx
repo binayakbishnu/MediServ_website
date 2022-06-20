@@ -298,7 +298,7 @@ export class Footer extends Component {
                         </a>
                     </div> */}
                     <div className='text-white text-center p-3' style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', borderRadius: '0px 0px 10px 10px' }}>
-                        <a className='text-black text-decoration-none' href='#welcome'>
+                        <a className='text-black text-decoration-none' href='#nav'>
                             Go up <i className="fas fa-point"></i>
                             <FontAwesomeIcon icon={faArrowUp} />
                         </a>

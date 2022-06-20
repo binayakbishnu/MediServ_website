@@ -4,14 +4,17 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Switch,
   // Link,
-  // Outlet
+  Outlet
 } from "react-router-dom";
 
 import './App.css';
 
 import Nav from './Nav';
 import Footer from './Footer';
+import HomePage from './HomePage/HomePage';
+import ConsultationForm from './ConsultationPage/ConsultationForm';
 
 // import HomePage from './Pages/HomePage'
 // import MoreProjects from './Pages/MoreProjects';
@@ -19,20 +22,25 @@ import Footer from './Footer';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      {/* <BrowserRouter>
 
         <Nav />
 
-        {/* <Routes>
-          <Route path="/" element={<HomePage />} />
+        <Routes>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
 
-          <Route path="/allprojects" element={<MoreProjects />} />
-
-        </Routes> */}
+          <Route exact path="/consultationForm">
+            <ConsultationForm />
+          </Route>
+        </Routes>
 
         <Footer />
 
-      </BrowserRouter>
+      </BrowserRouter> */}
+      <Nav />
+      <Outlet />
     </div>
   );
 }

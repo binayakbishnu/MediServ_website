@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink, Link } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import * as ReactBootstrap from 'react-bootstrap'
@@ -26,27 +27,82 @@ function Nav() {
             <ReactBootstrap.Navbar /* fixed="top" */ collapseOnSelect expand="lg" bg="dark" variant="light" className={`${navStyles.bStrapParent}`}>
                 <ReactBootstrap.Container className={`${navStyles.bStrapContainer}`}>
                     <ReactBootstrap.Navbar.Brand href="#home">
-                        <ReactBootstrap.NavLink
+                        <NavLink
                             className={`${navStyles.links} ${navStyles.brandLink}`}
-                            activeClassName="is-active"
+                            // activeClassName="is-active"
                             to="/"
                             exact
                         >
                             <ReactBootstrap.Image src={logo} className={`${navStyles.logo} `} fluid />
                             {/* Binayak */}
-                        </ReactBootstrap.NavLink>
+                        </NavLink>
                     </ReactBootstrap.Navbar.Brand>
                     <ReactBootstrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <ReactBootstrap.Navbar.Collapse id="responsive-navbar-nav">
                         <ReactBootstrap.Nav className="me-auto">
-                            <ReactBootstrap.Nav.Link href="#home" className={`${navStyles.links} ${navStyles.leftLinks}`}>Home</ReactBootstrap.Nav.Link>
-                            <ReactBootstrap.Nav.Link href="#consult" className={`${navStyles.links} ${navStyles.leftLinks}`}>Consult</ReactBootstrap.Nav.Link>
-                            <ReactBootstrap.Nav.Link href="#order" className={`${navStyles.links} ${navStyles.leftLinks}`}>Order</ReactBootstrap.Nav.Link>
-                            <ReactBootstrap.NavDropdown title="Profile" id="collasible-nav-dropdown" className={`${navStyles.links} ${navStyles.leftLinks}`}>
-                                <ReactBootstrap.NavDropdown.Item href="#editProfile">Edit profile</ReactBootstrap.NavDropdown.Item>
-                                <ReactBootstrap.NavDropdown.Item href="#paymentHistory">See payment history</ReactBootstrap.NavDropdown.Item>
+                            <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}>
+                                <NavLink
+                                    className={`text-decoration-none text-black`}
+                                    // activeClassName="is-active"
+                                    to="/"
+                                    exact
+                                >
+                                    Home
+                                </NavLink>
+                            </ReactBootstrap.Nav.Link>
+                            <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}>
+                                <NavLink
+                                    className={`text-decoration-none text-black`}
+                                    // activeClassName="is-active"
+                                    to="/consultationForm"
+                                    exact
+                                >
+                                    Consult
+                                </NavLink>
+                            </ReactBootstrap.Nav.Link>
+                            <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}>
+                                <NavLink
+                                    className={`text-decoration-none text-black text-black`}
+                                    activeClassName="is-active"
+                                    to="/orderForm"
+                                    exact
+                                >
+                                    Order
+                                </NavLink>
+                            </ReactBootstrap.Nav.Link>
+                            <ReactBootstrap.NavDropdown title={<span className="text-black my-auto">Profile</span>} menuVariant='dark'
+                                id="collasible-nav-dropdown" className={`${navStyles.links} ${navStyles.leftLinks} text-black`}>
+                                <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
+                                    <NavLink
+                                        className={`text-decoration-none text-white`}
+                                        activeClassName="is-active"
+                                        to="/profilePage"
+                                        exact
+                                    >
+                                        Edit Profile
+                                    </NavLink>
+                                </ReactBootstrap.NavDropdown.Item>
+                                <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
+                                    <NavLink
+                                        className={`text-decoration-none text-white`}
+                                        activeClassName="is-active"
+                                        to="/paymentHistory"
+                                        exact
+                                    >
+                                        Payment History
+                                    </NavLink>
+                                </ReactBootstrap.NavDropdown.Item>
                                 <ReactBootstrap.NavDropdown.Divider />
-                                <ReactBootstrap.NavDropdown.Item href="#logout">Log Out</ReactBootstrap.NavDropdown.Item>
+                                <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
+                                    <NavLink
+                                        className={`text-decoration-none text-white`}
+                                        activeClassName="is-active"
+                                        to="/"
+                                        exact
+                                    >
+                                        Log Out
+                                    </NavLink>
+                                </ReactBootstrap.NavDropdown.Item>
                             </ReactBootstrap.NavDropdown>
                         </ReactBootstrap.Nav>
                         <ReactBootstrap.Nav className={`${navStyles.socialLinksParent} d-flex flex-row`}>
