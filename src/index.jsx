@@ -15,6 +15,7 @@ import PaymentHistory from './ProfilePage/PaymentHistory';
 import Auth from './Authentication/Auth';
 import Login from './Authentication/Login';
 import SignUp from './Authentication/SignUp';
+import ForgotPassword from './Authentication/ForgotPassword';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,8 +25,9 @@ root.render(
       <Routes>
         <Route path="/" element={<Auth />}>
           <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="login" element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
+          <Route path="forgotPassword" element={<ForgotPassword />} />
         </Route>
         <Route path="/mainApp" element={<App />}>
           <Route path="/mainApp" element={<HomePage />} />
