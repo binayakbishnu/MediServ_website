@@ -1,0 +1,66 @@
+.authParent {
+    background-color: rgb(0, 38, 95);
+    background-image: url('../assets/HomeBg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    margin: 0%;
+    padding: 0%;
+
+    min-height: 100vh;
+    
+    padding-top:1%;
+    padding-bottom: 2%;
+}
+
+.bStrapParent {
+    background-color: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(5px);
+
+    /* margin:0% 1%; */
+    width: 99%;
+    margin: auto;
+    border-radius: 10px 10px 10px 10px;
+
+    /* margin-top: 1%; */
+}
+
+/* .bStrapContainer {
+    background-color: red !important;
+} */
+
+/* .links {
+    background-color: purple !important;
+} */
+
+.brandLink {
+    padding: 0%;
+
+    color: #000000;
+
+}
+
+.logo {
+    width: 120px;
+    padding: 0%;
+    margin: 0%;
+}
+
+/* .leftLinks{
+    color: #000000 !important;
+} */
+
+/* .socialLinksParent {
+    background-color: violet !important;
+} */
+
+.socialLinks {
+    /* border-left: 1px solid black; */
+
+    color: #000000 !important;
+    font-size: 1.2em;
+}
+
+@media only screen and (max-width: 768px) {}
