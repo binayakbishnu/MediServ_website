@@ -19,6 +19,7 @@ export class ProfilePage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange(event) {
+        // alert(event.target.value);
         const name = event.target.name;
         var value;
         if (event.target.type === 'checkbox') {
@@ -139,8 +140,7 @@ export class ProfilePage extends Component {
         document.getElementById('saveChangesCol').style.visibility =
             document.getElementById('saveChangesCol').style.visibility === 'visible' ? 'hidden' : 'visible';
         document.getElementById('editProfile').innerHTML =
-            document.getElementById('editProfile').innerHTML == "Edit Profile" ? "Cancel" : "Edit Profile";
-
+            document.getElementById('editProfile').innerHTML === "Edit Profile" ? "Cancel" : "Edit Profile";
         document.getElementById('firstName').disabled =
             document.getElementById('firstName').disabled === true ? false : true;
         document.getElementById('lastName').disabled =
@@ -186,7 +186,8 @@ export class ProfilePage extends Component {
                     <Row className="mb-5">
                         <Col className="" md="6">
                             <label>First Name</label>
-                            <Form.Control value={this.state.firstName}
+                            <Form.Control name="firstName"
+                                value={this.state.firstName} onChange={this.handleChange}
                                 className="form-control"
                                 id="firstName"
                                 disabled
@@ -195,7 +196,8 @@ export class ProfilePage extends Component {
                         </Col>
                         <Col className="" md="6">
                             <label>Last Name</label>
-                            <Form.Control value={this.state.lastName}
+                            <Form.Control name="lastName"
+                                value={this.state.lastName} onChange={this.handleChange}
                                 className="form-control"
                                 id="lastName"
                                 disabled
@@ -207,7 +209,8 @@ export class ProfilePage extends Component {
                     <Row className="mb-0">
                         <Col className="" md="6">
                             <label>Email</label>
-                            <Form.Control value={this.state.email}
+                            <Form.Control name="email"
+                                value={this.state.email} onChange={this.handleChange}
                                 className="form-control"
                                 id="email"
                                 disabled
@@ -216,7 +219,8 @@ export class ProfilePage extends Component {
                         </Col>
                         <Col className="" md="6">
                             <label>Password</label>
-                            <Form.Control type="password" value={this.state.password}
+                            <Form.Control name="password" type="password"
+                                value={this.state.password} onChange={this.handleChange}
                                 className="form-control"
                                 id="password"
                                 disabled
