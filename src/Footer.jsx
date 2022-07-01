@@ -104,7 +104,7 @@ export class Footer extends Component {
                                         <h6 className='text-uppercase fw-bold mb-4'>
                                             <i className='fas fa-gem me-2'></i>Why we are here
                                         </h6>
-                                        <p style={{ "text-align": "justify" }} className="pe-3">
+                                        <p style={{ "textAlign": "justify" }} className="pe-3">
                                             Online health care is gaining rapid popularity day by day and has become a huge part of the urban community in developed countries. It will reduce the time required for consultations and improve the quality of healthcare services in rural areas, removing many infrastructural challenges.
                                         </p>
                                     </div>

@@ -24,12 +24,11 @@ function Nav() {
 
             <ReactBootstrap.Navbar /* fixed="top" */ collapseOnSelect expand="lg" bg="dark" variant="light" className={`${navStyles.bStrapParent}`}>
                 <ReactBootstrap.Container className={`${navStyles.bStrapContainer}`}>
-                    <ReactBootstrap.Navbar.Brand href="#home">
+                    <ReactBootstrap.Navbar.Brand>
                         <NavLink
                             className={`${navStyles.links} ${navStyles.brandLink}`}
                             // activeClassName="is-active"
                             to="/mainApp"
-                            exact
                         >
                             <ReactBootstrap.Image src={logo} className={`${navStyles.logo} `} fluid />
                             {/* Binayak */}
@@ -38,36 +37,36 @@ function Nav() {
                     <ReactBootstrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <ReactBootstrap.Navbar.Collapse id="responsive-navbar-nav">
                         <ReactBootstrap.Nav className="me-auto">
-                            <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}>
+                            {/* <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}> */}
                                 <NavLink
                                     className={`text-decoration-none text-black`}
                                     // activeClassName="is-active"
                                     to="/mainApp"
-                                    exact
+    
                                 >
                                     Home
                                 </NavLink>
-                            </ReactBootstrap.Nav.Link>
-                            <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}>
+                            {/* </ReactBootstrap.Nav.Link> */}
+                            {/* <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}> */}
                                 <NavLink
                                     className={`text-decoration-none text-black`}
                                     // activeClassName="is-active"
                                     to="/mainApp/consultationForm"
-                                    exact
+    
                                 >
                                     Consult
                                 </NavLink>
-                            </ReactBootstrap.Nav.Link>
-                            <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}>
+                            {/* </ReactBootstrap.Nav.Link> */}
+                            {/* <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}> */}
                                 <NavLink
                                     className={`text-decoration-none text-black text-black`}
-                                    activeClassName="is-active"
+                                    // activeClassName="is-active"
                                     to="/mainApp/orderForm"
-                                    exact
+    
                                 >
                                     Order
                                 </NavLink>
-                            </ReactBootstrap.Nav.Link>
+                            {/* </ReactBootstrap.Nav.Link> */}
                             <ReactBootstrap.NavDropdown title={<span className="text-black my-auto">Profile</span>} menuVariant='dark'
                                 id="collasible-nav-dropdown" className={`${navStyles.links} ${navStyles.leftLinks} text-black`}>
                                 <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
@@ -75,7 +74,7 @@ function Nav() {
                                         className={`text-decoration-none text-white`}
                                         activeClassName="is-active"
                                         to="/mainApp/profilePage"
-                                        exact
+        
                                     >
                                         Edit Profile
                                     </NavLink>
@@ -83,9 +82,9 @@ function Nav() {
                                 <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
                                     <NavLink
                                         className={`text-decoration-none text-white`}
-                                        activeClassName="is-active"
+                                        // activeClassName="is-active"
                                         to="/mainApp/paymentHistory"
-                                        exact
+        
                                     >
                                         Payment History
                                     </NavLink>
@@ -94,9 +93,9 @@ function Nav() {
                                 <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
                                     <NavLink
                                         className={`text-decoration-none text-white`}
-                                        activeClassName="is-active"
+                                        // activeClassName="is-active"
                                         to="/"
-                                        exact
+        
                                     >
                                         Log Out
                                     </NavLink>
