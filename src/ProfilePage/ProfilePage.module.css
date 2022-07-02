@@ -1,4 +1,4 @@
-.profileParent{
+.profileParent {
     width: 75%;
     margin: auto;
 
@@ -8,4 +8,12 @@
     backdrop-filter: blur(5px);
     border-radius: 10px 10px 10px 10px;
     padding: 2%;
+}
+
+.errorMessages {
+    color: red;
+    font-weight: bold;
+
+    margin: 0%;
+    padding: 0%;
 }

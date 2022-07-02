@@ -1,161 +1,131 @@
-import React, { Component } from "react";
-import { Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
-import uuid from "react-uuid";
+import React, { useState } from 'react';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import uuid from 'react-uuid';
 
-import profilePageStyles from './ProfilePage.module.css'
+import profilePageStyles from './ProfilePage.module.css';
 
-export class ProfilePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: uuid(),
-            currentFirstName: 'Binayak',
-            currentLastName: 'Bishnu',
-            currentEmail: 'bishnu.binayak12@gmail.com',
-            currentPassword: 'qweewq123',
-            oldFirstName: 'Binayak',
-            oldLastName: 'Bishnu',
-            oldEmail: 'bishnu.binayak12@gmail.com',
-            oldPassword: 'qweewq123',
-            confirmPassword: '',
+function ProfileNode() {
+    /* const [returnedData, setReturnedData] = useState(['hi there']);
 
-            firstNameError: '',
-            lastNameError: '',
-            emailError: '',
-            passwordError: '',
-            confirmPasswordError: '',
-        };
+const getData = async (url) => {
+    const newData = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+    }).then(res => res.json());
+    console.log(newData);
+    // console.log(newData.result);
+    setReturnedData(newData.result);
+}
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    handleChange(event) {
-        const name = event.target.name;
-        var value;
-        if (event.target.type === 'checkbox') {
-            value = event.target.checked;
-        } else {
-            value = event.target.value;
-        }
+// getData('/api'); */
 
-        this.setState({
-            [name]: value
-        });
-    }
+    const [id] = useState(uuid());
 
-    nameValidation(nameType, name) {
-        const errorName = nameType + 'Error';
+    const [currentFirstName, setCurrentFirstName] = useState('John');
+    const [currentLastName, setCurrentLastName] = useState('Doe');
+    const [currentEmail, setCurrentEmail] = useState('john@example.com');
+    const [currentPassword, setCurrentPassword] = useState('qweewq123');
+
+    const [oldFirstName, setOldFirstName] = useState('John');
+    const [oldLastName, setOldLastName] = useState('Doe');
+    const [oldEmail, setOldEmail] = useState('john@example.com');
+    const [oldPassword, setOldPassword] = useState('qweewq123');
+
+    const [confirmPassword, setConfirmPassword] = useState(currentPassword);
+
+    const [firstNameError, setFirstNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+    const firstNameValidation = () => {
         const regexName = /^[a-zA-Z]+$/
-        if (name === "" || name === null) {
-            this.setState({ [errorName]: 'Enter value' });
+        console.log(currentFirstName);
+        if (currentFirstName === "" || currentFirstName === null) {
+            setFirstNameError('Enter value');
             return false;
-        } else if (/\d/.test(name)) {
-            this.setState({ [errorName]: 'No numbers allowed' });
+        } else if (/\d/.test(currentFirstName)) {
+            setFirstNameError('No numbers allowed');
             return false;
-        } else if (!name.match(regexName)) {
-            this.setState({ [errorName]: 'No special character allowed' });
+        } else if (!currentFirstName.match(regexName)) {
+            setFirstNameError('No special characters allowed');
             return false;
         } else {
-            this.setState({ [errorName]: '' });
+            setFirstNameError('');
+            return true;
+        }
+    }
+    const lastNameValidation = () => {
+        const regexName = /^[a-zA-Z]+$/
+        if (currentLastName === "" || currentLastName === null) {
+            setLastNameError('Enter value');
+            return false;
+        } else if (/\d/.test(currentLastName)) {
+            setLastNameError('No numbers allowed');
+            return false;
+        } else if (!currentLastName.match(regexName)) {
+            setLastNameError('No special characters allowed');
+            return false;
+        } else {
+            setLastNameError('');
             return true;
         }
     }
 
-    emailValidation(email) {
+    const emailValidation = () => {
         // const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (email === "" || email === null) {
-            // alert("Enter email");
-            this.setState({ currentEmail: '' });
-            this.setState({ emailError: 'Enter email' });
+        if (currentEmail === "" || currentEmail === null) {
+            setCurrentEmail('');
+            setEmailError('Enter email');
             return false;
-        } else if (email.match(regexEmail)) {
-            // alert("Valid email address");
-            this.setState({ emailError: '' });
+        } else if (currentEmail.match(regexEmail)) {
+            setEmailError('')
             return true;
         } else {
-            // alert("Invalid email address");
-            this.setState({ currentEmail: '' });
-            this.setState({ emailError: 'Invalid email' });
+            setCurrentEmail('');
+            setEmailError('Invalid email');
             return false;
         }
     }
 
-    passwordValidation(password) {
-        if (password === "" || password === null) {
-            // alert("Enter password");
-            this.setState({ currentPassword: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ passwordError: 'Enter password' });
+    const passwordValidation = () => {
+        if (currentPassword === "" || currentPassword === null) {
+            setPasswordError('Enter password');
             return false;
-        } else if (password.length <= 5) {
-            // alert("Password too short");
-            this.setState({ currentPassword: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ passwordError: 'Password too short' });
+        } else if (currentPassword.length <= 5) {
+            setPasswordError('Too short');
             return false;
         } else {
-            // alert("Password ok");
-            this.setState({ passwordError: '' });
+            setPasswordError('');
             return true;
         }
     }
 
-    confirmPasswordValidation(password, confirmPassword) {
+    const confirmPasswordValidation = () => {
         if (confirmPassword === "" || confirmPassword === null) {
-            this.setState({ currentPassword: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ confirmPasswordError: 'Enter password' });
+            setConfirmPassword('');
+            setConfirmPasswordError('Enter password');
             return false;
-        } else if (confirmPassword !== password) {
-            this.setState({ currentPassword: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ confirmPasswordError: "Passwords don't match" });
+        } else if (confirmPassword !== currentPassword) {
+            setConfirmPassword('');
+            setConfirmPasswordError("Passwords don't match");
             return false;
         } else {
-            this.setState({ confirmPasswordError: '' });
+            setConfirmPasswordError('');
             return true;
         }
     }
 
-    handleSubmit(event) {
-        alert(event.target.name);
-        alert(`Submitted: ${this.state.id}, ${this.state.id.length},\n${this.state.currentFirstName} ${this.state.currentLastName}, ${this.state.currentEmail}, ${this.state.currentPassword}, ${this.state.confirmPassword}`);
-
-        event.preventDefault();
-        const { currentFirstName, currentLastName, currentEmail, currentPassword, confirmPassword } = this.state
-
-        const firstNameValidation = this.nameValidation('currentFirstName', currentFirstName);
-        const lastNameValidation = this.nameValidation('currentLastName', currentLastName);
-        const emailValidation = this.emailValidation(currentEmail);
-        const passwordValidation = this.passwordValidation(currentPassword);
-        const confirmPasswordValidation = this.confirmPasswordValidation(currentPassword, confirmPassword);
-        alert(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}`);
-
-        // const url = '/mainApp'
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ email, password })
-        // };
-        // fetch(url, requestOptions)
-        //     .then(response => console.log('Submitted successfully'))
-        //     .catch(error => console.log('Form submit error', error))
-
-        this.setState({
-            id: uuid(),
-        })
-
-        return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation;
-    }
-
-    editProfile(name) {
-        this.setState({
-            oldFirstName: this.state.currentFirstName,
-            oldLastName: this.state.currentLastName,
-            oldEmail: this.state.currentEmail,
-            oldPassword: this.state.currentPassword,
-        })
+    const editProfile = (name) => {
+        setOldFirstName(currentFirstName);
+        setOldLastName(currentLastName);
+        setOldEmail(currentEmail);
+        setOldPassword(currentPassword);
 
         alert(name + ' clicked');
 
@@ -170,17 +140,20 @@ export class ProfilePage extends Component {
             purpose = "saving";
         }
 
-        if (purpose === "saving") {
-            // var formValidation = this.handleSubmit(document.getElementById('profileForm'));
-            var formValidation = this.state.confirmPassword === '' || this.state.confirmPassword === null ? false : this.state.confirmPassword === this.state.currentPassword ? true : false;
+        console.log('Purpose: ' + purpose);
+
+        /* if (purpose === "saving") {
+            var formValidation = confirmPassword === '' || confirmPassword === null ? false : confirmPassword === currentPassword ? true : false;
             if (formValidation === true) {
                 alert("Form is ok");
+                setConfirmPassword('');
             } else {
                 alert("Form is not ok");
-                this.setState({ confirmPasswordError: "Invalid" })
+                setConfirmPassword('');
+                setConfirmPasswordError('Invalid');
                 return false;
             }
-        }
+        } */
 
         document.getElementById('saveChangesCol').style.visibility =
             document.getElementById('saveChangesCol').style.visibility === 'visible' ? 'hidden' : 'visible';
@@ -198,131 +171,186 @@ export class ProfilePage extends Component {
             document.getElementById('confirmPasswordRow').style.display === 'none' ? 'block' : 'none';
 
         if (purpose === "cancelling") {
-            alert("Cancelling")
-            this.setState({
-                currentFirstName: this.state.oldFirstName,
-                currentLastName: this.state.oldLastName,
-                currentEmail: this.state.oldEmail,
-                currentPassword: this.state.oldPassword,
-            })
+            alert("Cancelling");
+            setCurrentFirstName(oldFirstName);
+            setCurrentLastName(oldLastName);
+            setCurrentEmail(oldEmail);
+            setCurrentPassword(oldPassword);
+            setConfirmPassword(currentPassword);
         } else if (purpose === "saving") {
             alert("Saving");
-            this.setState({
-                oldFirstName: this.state.currentFirstName,
-                oldLastName: this.state.currentLastName,
-                oldEmail: this.state.currentEmail,
-                oldPassword: this.state.currentPassword,
-            })
+            setOldFirstName(currentFirstName);
+            setOldLastName(currentLastName);
+            setOldEmail(currentEmail);
+            setOldPassword(currentPassword);
         } else if (purpose === "editing") {
             alert("Editing")
         }
 
-        alert(`Old: ${this.state.oldFirstName}, ${this.state.oldLastName}, ${this.state.oldEmail}, ${this.state.oldPassword}\nNew: ${this.state.currentFirstName}, ${this.state.currentLastName}, ${this.state.currentEmail}, ${this.state.currentPassword}`);
+        setFirstNameError('');
+        setLastNameError('');
+        setEmailError('');
+        setPasswordError('');
+        setConfirmPasswordError('');
+
+        alert(`Old: ${oldFirstName}, ${oldLastName}, ${oldEmail}, ${oldPassword}\nNew: ${currentFirstName}, ${currentLastName}, ${currentEmail}, ${currentPassword}`);
     }
 
-    render() {
-        return (
-            <div className={`${profilePageStyles.profileParent}`}>
-                <Form name="profileForm" action='/mainApp' method='POST' onSubmit={this.handleSubmit} id="profileForm">
-                    <h3>Profile Page</h3>
-                    <Row name="idButtonsRow" className="mb-5">
-                        <Col className="" md="6">
-                            <label>ID</label>
-                            <Form.Control
-                                type="password"
-                                name="id"
-                                className="form-control"
-                                placeholder=""
-                                value={this.state.id}
-                                disabled
-                            />
-                        </Col>
-                        <Col md="2" className="">
-                            <label style={{ "visibility": "hidden" }}>Edit Profile</label>
-                            <Button type="button" className="btn btn-primary" onClick={e => this.editProfile(e.target.name)}
-                                id="editProfile" name="editProfile">
-                                Edit Profile
-                            </Button>
-                        </Col>
-                        <Col md="2" className="" style={{ "visibility": "hidden" }} id="saveChangesCol">
-                            <label style={{ "visibility": "hidden" }}>Save changes</label>
-                            <Button type="button" className="btn btn-primary" onClick={e => this.editProfile(e.target.name)}
-                                id="saveChanges" name="saveChanges">
-                                Save changes
-                            </Button>
-                        </Col>
-                    </Row>
+    const handleChange = (event) => {
+        const name = event.target.name;
+        var value;
+        if (event.target.type === 'checkbox') {
+            value = event.target.checked;
+        } else {
+            value = event.target.value;
+        }
 
-                    <Row name="namesRow" className="mb-5">
-                        <Col className="" md="6">
-                            <label>First Name</label>
+        switch (name) {
+            case 'currentFirstName':
+                setCurrentFirstName(value);
+                break;
+            case 'currentLastName':
+                setCurrentLastName(value);
+                break;
+            case 'currentEmail':
+                setCurrentEmail(value);
+                break;
+            case 'currentPassword':
+                setCurrentPassword(value);
+                break;
+            case 'confirmPassword':
+                setConfirmPassword(value);
+                break;
+            default:
+                console.error('Error in changes');
+        }
+
+        console.warn(name);
+        console.warn(value);
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        alert(event.target.name);
+        alert(`Submitted: ${id},\n${currentFirstName} ${currentLastName},\n${currentEmail}, ${currentPassword}, ${confirmPassword}`);
+
+        const firstNameV = firstNameValidation();
+        const lastNameV = lastNameValidation();
+        const emailV = emailValidation();
+        const passwordV = passwordValidation();
+        const confirmPasswordV = confirmPasswordValidation();
+
+        console.warn(`Validation: ${firstNameV}, ${lastNameV}\n${emailV}, ${passwordV}, ${confirmPasswordV}`);
+
+        console.log(firstNameV && lastNameV && emailV && passwordV && confirmPasswordV);
+        if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV) {
+            editProfile('saveChanges');
+        }
+        return firstNameV && lastNameV && emailV && passwordV && confirmPasswordV;
+    }
+
+    return (
+        <div className={`${profilePageStyles.profileParent}`}>
+            <Form name="profileForm" action='' method='POST' onSubmit={e => handleSubmit(e)} id="profileForm">
+                <h3>Profile Page</h3>
+                <Row name="idButtonsRow" className="mb-5">
+                    <Col className="" md="6">
+                        <label>ID</label>
+                        <Form.Control
+                            type="password"
+                            name="id"
+                            className="form-control"
+                            placeholder=""
+                            value={id}
+                            disabled
+                        />
+                    </Col>
+                    <Col md="2" className="">
+                        <label style={{ "visibility": "hidden" }}>Edit</label>
+                        <Button type="button" className="btn btn-primary" onClick={e => editProfile(e.target.name)}
+                            id="editProfile" name="editProfile">
+                            Edit Profile
+                        </Button>
+                    </Col>
+                    <Col md="2" className="" style={{ "visibility": "hidden" }} id="saveChangesCol">
+                        <label style={{ "visibility": "hidden" }}>Save</label>
+                        <Button type="submit" className="btn btn-primary" /* onClick={e => editProfile(e.target.name)} */
+                            id="saveChanges" name="saveChanges">
+                            Save changes
+                        </Button>
+                    </Col>
+                </Row>
+
+                <Row name="namesRow" className="mb-5">
+                    <Col className="" md="6">
+                        <label>First Name</label>
                             <Form.Control name="currentFirstName"
-                                value={this.state.currentFirstName} onChange={this.handleChange}
+                                value={currentFirstName} onChange={e => handleChange(e)}
                                 className="form-control"
                                 id="currentFirstName"
                                 disabled
                             />
-                            <span name="firstNameError" className="">{this.state.firstNameError}</span>
-                        </Col>
-                        <Col className="" md="6">
-                            <label>Last Name</label>
-                            <Form.Control name="currentLastName"
-                                value={this.state.currentLastName} onChange={this.handleChange}
-                                className="form-control"
-                                id="currentLastName"
-                                disabled
-                            />
-                            <span name="lastNameError" className="">{this.state.lastNameError}</span>
-                        </Col>
-                    </Row>
+                        <span name="firstNameError" className={`${profilePageStyles.errorMessages}`}>{firstNameError}</span>
+                    </Col>
+                    <Col className="" md="6">
+                        <label>Last Name</label>
+                        <Form.Control name="currentLastName"
+                            value={currentLastName} onChange={e => handleChange(e)}
+                            className="form-control"
+                            id="currentLastName"
+                            disabled
+                        />
+                        <span name="lastNameError" className={`${profilePageStyles.errorMessages}`}>{lastNameError}</span>
+                    </Col>
+                </Row>
 
-                    <Row name="emailPasswordRow" className="mb-0" id="emailPasswordRow">
-                        <Col className="" md="6">
-                            <label>Email</label>
-                            <Form.Control name="currentEmail" type="email"
-                                value={this.state.currentEmail} onChange={this.handleChange}
-                                className="form-control"
-                                id="currentEmail"
-                                disabled
-                            />
-                            <span name="emailError" className="">{this.state.emailError}</span>
-                        </Col>
-                        <Col className="" md="6">
-                            <Row>
-                                <Col>
-                                    <label>Password</label>
-                                    <Form.Control name="currentPassword" type="password"
-                                        value={this.state.currentPassword} onChange={this.handleChange}
-                                        className="form-control"
-                                        id="currentPassword"
-                                        disabled
-                                    />
-                                    <span name="passwordError" className="">{this.state.passwordError}</span>
-                                </Col>
-                            </Row>
-                            <Row name="confirmPasswordRow" id="confirmPasswordRow" className="mt-2" style={{ "display": "none" }}>
-                                <Col>
-                                    <label>Confirm Password<sup>*</sup></label>
-                                    <Form.Control name="confirmPassword" type="password"
-                                        value={this.state.confirmPassword} onChange={this.handleChange}
-                                        className="form-control"
-                                        id="confirmPassword"
-                                    />
-                                    <span name="confirmPasswordError" className="">{this.state.confirmPasswordError}</span>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
+                <Row name="emailPasswordRow" className="mb-0" id="emailPasswordRow">
+                    <Col className="" md="6">
+                        <label>Email</label>
+                        <Form.Control name="currentEmail" type="email"
+                            value={currentEmail} onChange={e => handleChange(e)}
+                            className="form-control"
+                            id="currentEmail"
+                            disabled
+                        />
+                        <span name="emailError" className={`${profilePageStyles.errorMessages}`}>{emailError}</span>
+                    </Col>
+                    <Col className="" md="6">
+                        <Row>
+                            <Col>
+                                <label>Password</label>
+                                <Form.Control name="currentPassword" type="password"
+                                    value={currentPassword} onChange={e => handleChange(e)}
+                                    className="form-control"
+                                    id="currentPassword"
+                                    disabled
+                                />
+                                <span name="passwordError" className={`${profilePageStyles.errorMessages}`}>{passwordError}</span>
+                            </Col>
+                        </Row>
+                        <Row name="confirmPasswordRow" id="confirmPasswordRow" className="mt-2" style={{ "display": "none" }}>
+                            <Col>
+                                <label>Confirm Password<sup>*</sup></label>
+                                <Form.Control name="confirmPassword" type="password"
+                                    value={confirmPassword} onChange={e => handleChange(e)}
+                                    className="form-control"
+                                    id="confirmPassword"
+                                />
+                                <span name="confirmPasswordError" className={`${profilePageStyles.errorMessages}`}>{confirmPasswordError}</span>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
 
-                    {/* <div className="d-grid">
+                {/* <div className="d-grid">
                         <Button type="submit" className="btn btn-primary">
                             Submit
                         </Button>
                     </div> */}
-                </Form>
-            </div>
-        )
-    }
+            </Form>
+        </div>
+    )
 }
 
-export default ProfilePage
+export default ProfileNode
