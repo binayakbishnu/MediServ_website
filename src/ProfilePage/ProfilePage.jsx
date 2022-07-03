@@ -7,20 +7,20 @@ import profilePageStyles from './ProfilePage.module.css';
 function ProfileNode() {
     /* const [returnedData, setReturnedData] = useState(['hi there']);
 
-const getData = async (url) => {
-    const newData = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-    }).then(res => res.json());
-    console.log(newData);
-    // console.log(newData.result);
-    setReturnedData(newData.result);
-}
+    const getData = async (url) => {
+        const newData = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }).then(res => res.json());
+        console.log(newData);
+        // console.log(newData.result);
+        setReturnedData(newData.result);
+    }
 
-// getData('/api'); */
+    // getData('/api'); */
 
     const [id] = useState(uuid());
 
@@ -42,8 +42,8 @@ const getData = async (url) => {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-    const firstNameValidation = () => {
-        const regexName = /^[a-zA-Z]+$/
+    function firstNameValidation() {
+        const regexName = /^[a-zA-Z]+$/;
         console.log(currentFirstName);
         if (currentFirstName === "" || currentFirstName === null) {
             setFirstNameError('Enter value');
@@ -59,8 +59,8 @@ const getData = async (url) => {
             return true;
         }
     }
-    const lastNameValidation = () => {
-        const regexName = /^[a-zA-Z]+$/
+    function lastNameValidation() {
+        const regexName = /^[a-zA-Z]+$/;
         if (currentLastName === "" || currentLastName === null) {
             setLastNameError('Enter value');
             return false;
@@ -76,7 +76,7 @@ const getData = async (url) => {
         }
     }
 
-    const emailValidation = () => {
+    function emailValidation() {
         // const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (currentEmail === "" || currentEmail === null) {
@@ -84,7 +84,7 @@ const getData = async (url) => {
             setEmailError('Enter email');
             return false;
         } else if (currentEmail.match(regexEmail)) {
-            setEmailError('')
+            setEmailError('');
             return true;
         } else {
             setCurrentEmail('');
@@ -93,7 +93,7 @@ const getData = async (url) => {
         }
     }
 
-    const passwordValidation = () => {
+    function passwordValidation() {
         if (currentPassword === "" || currentPassword === null) {
             setPasswordError('Enter password');
             return false;
@@ -106,7 +106,7 @@ const getData = async (url) => {
         }
     }
 
-    const confirmPasswordValidation = () => {
+    function confirmPasswordValidation() {
         if (confirmPassword === "" || confirmPassword === null) {
             setConfirmPassword('');
             setConfirmPasswordError('Enter password');
@@ -121,7 +121,7 @@ const getData = async (url) => {
         }
     }
 
-    const editProfile = (name) => {
+    function editProfile(name) {
         setOldFirstName(currentFirstName);
         setOldLastName(currentLastName);
         setOldEmail(currentEmail);
@@ -134,7 +134,7 @@ const getData = async (url) => {
             if (document.getElementById("saveChangesCol").style.visibility === "hidden") {
                 purpose = "editing";
             } else {
-                purpose = "cancelling"
+                purpose = "cancelling";
             }
         } else if (name === "saveChanges") {
             purpose = "saving";
@@ -184,7 +184,7 @@ const getData = async (url) => {
             setOldEmail(currentEmail);
             setOldPassword(currentPassword);
         } else if (purpose === "editing") {
-            alert("Editing")
+            alert("Editing");
         }
 
         setFirstNameError('');
@@ -196,7 +196,7 @@ const getData = async (url) => {
         alert(`Old: ${oldFirstName}, ${oldLastName}, ${oldEmail}, ${oldPassword}\nNew: ${currentFirstName}, ${currentLastName}, ${currentEmail}, ${currentPassword}`);
     }
 
-    const handleChange = (event) => {
+    function handleChange(event) {
         const name = event.target.name;
         var value;
         if (event.target.type === 'checkbox') {
@@ -229,7 +229,7 @@ const getData = async (url) => {
         console.warn(value);
     }
 
-    const handleSubmit = (event) => {
+    function handleSubmit(event) {
         event.preventDefault();
 
         alert(event.target.name);
@@ -285,12 +285,12 @@ const getData = async (url) => {
                 <Row name="namesRow" className="mb-5">
                     <Col className="" md="6">
                         <label>First Name</label>
-                            <Form.Control name="currentFirstName"
-                                value={currentFirstName} onChange={e => handleChange(e)}
-                                className="form-control"
-                                id="currentFirstName"
-                                disabled
-                            />
+                        <Form.Control name="currentFirstName"
+                            value={currentFirstName} onChange={e => handleChange(e)}
+                            className="form-control"
+                            id="currentFirstName"
+                            disabled
+                        />
                         <span name="firstNameError" className={`${profilePageStyles.errorMessages}`}>{firstNameError}</span>
                     </Col>
                     <Col className="" md="6">
@@ -342,12 +342,6 @@ const getData = async (url) => {
                         </Row>
                     </Col>
                 </Row>
-
-                {/* <div className="d-grid">
-                        <Button type="submit" className="btn btn-primary">
-                            Submit
-                        </Button>
-                    </div> */}
             </Form>
         </div>
     )
