@@ -5,22 +5,7 @@ import uuid from 'react-uuid';
 import profilePageStyles from './ProfilePage.module.css';
 
 function ProfileNode() {
-    /* const [returnedData, setReturnedData] = useState(['hi there']);
-
-    const getData = async (url) => {
-        const newData = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        }).then(res => res.json());
-        console.log(newData);
-        // console.log(newData.result);
-        setReturnedData(newData.result);
-    }
-
-    // getData('/api'); */
+    const [returnedData, setReturnedData] = useState(['']);
 
     const [id] = useState(uuid());
 
@@ -41,6 +26,30 @@ function ProfileNode() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+    // const [profile, setProfile] = useState({ firstName: '', lastName: '', email: '', password: '' });
+
+    const handleData = async (url) => {
+        const newData = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                id_: id,
+                firstName: currentFirstName,
+                lastName: currentLastName,
+                email: currentEmail,
+                password: currentPassword,
+            }),
+        }).then(res => res.json());
+        console.log(newData);
+        // console.log(newData.result);
+        setReturnedData(newData);
+    }
+
+    // handleData('/api');
 
     function firstNameValidation() {
         const regexName = /^[a-zA-Z]+$/;
@@ -193,10 +202,24 @@ function ProfileNode() {
         setPasswordError('');
         setConfirmPasswordError('');
 
-        alert(`Old: ${oldFirstName}, ${oldLastName}, ${oldEmail}, ${oldPassword}\nNew: ${currentFirstName}, ${currentLastName}, ${currentEmail}, ${currentPassword}`);
+        alert(`${purpose}->\nOld: ${oldFirstName}, ${oldLastName}, ${oldEmail}, ${oldPassword}\nNew: ${currentFirstName}, ${currentLastName}, ${currentEmail}, ${currentPassword}`);
+
+        if (purpose === "saving") { handleData(); }
     }
 
     function handleChange(event) {
+        /* if (event.target.name === "age") {
+            setProfile(prevState => ({
+                ...prevState,
+                [name]: parseInt(value)
+            }))
+            return;
+        }
+        setProfile(prevState => ({
+            ...prevState,
+            [event.target.name]: value
+        })) */
+
         const name = event.target.name;
         var value;
         if (event.target.type === 'checkbox') {
@@ -341,6 +364,11 @@ function ProfileNode() {
                             </Col>
                         </Row>
                     </Col>
+                </Row>
+
+                <Row>
+                    <Button type="button" onClick={() => handleData('/mainApp/insert')}>Get Data</Button>
+                    <div>{returnedData}</div>
                 </Row>
             </Form>
         </div>
