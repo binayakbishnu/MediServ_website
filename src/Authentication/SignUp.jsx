@@ -217,29 +217,31 @@ export class SignUp extends Component {
                             />
                             <span name="emailError" className="">{this.state.emailError}</span>
                         </div>
-                        <div className="mb-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                className="form-control"
-                                placeholder="Enter password"
-                                value={this.state.password} onChange={this.handleChange}
-                                required
-                            />
-                            <span name="passwordError" className="">{this.state.passwordError}</span>
-                        </div>
-                        <div className="mb-3">
-                            <label>Confirm Password</label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                className="form-control"
-                                placeholder="Re-enter Password"
-                                value={this.state.confirmPassword} onChange={this.handleChange}
-                                required
-                            />
-                            <span name="confirmPasswordError" className="">{this.state.confirmPasswordError}</span>
+                        <div className='mb-3 d-flex'>
+                            <div className="me-1">
+                                <label>Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    className="form-control"
+                                    placeholder="Enter password"
+                                    value={this.state.password} onChange={this.handleChange}
+                                    required
+                                />
+                                <span name="passwordError" className="">{this.state.passwordError}</span>
+                            </div>
+                            <div className="ms-1">
+                                <label>Confirm Password</label>
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    className="form-control"
+                                    placeholder="Re-enter Password"
+                                    value={this.state.confirmPassword} onChange={this.handleChange}
+                                    required
+                                />
+                                <span name="confirmPasswordError" className="">{this.state.confirmPasswordError}</span>
+                            </div>
                         </div>
                         <div className="d-grid mb-1">
                             <button type="submit" className="btn btn-primary">
