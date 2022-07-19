@@ -39,30 +39,30 @@ function Nav() {
                         <ReactBootstrap.Nav className="me-auto">
                             {/* <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}> */}
                                 <NavLink
-                                    className={`text-decoration-none text-black`}
+                                    className={`text-decoration-none text-black nav-link`}
                                     // activeClassName="is-active"
                                     to="/mainApp"
-    
+
                                 >
                                     Home
                                 </NavLink>
                             {/* </ReactBootstrap.Nav.Link> */}
                             {/* <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}> */}
                                 <NavLink
-                                    className={`text-decoration-none text-black`}
+                                    className={`text-decoration-none text-black nav-link`}
                                     // activeClassName="is-active"
                                     to="/mainApp/consultationForm"
-    
+
                                 >
                                     Consult
                                 </NavLink>
                             {/* </ReactBootstrap.Nav.Link> */}
                             {/* <ReactBootstrap.Nav.Link className={`${navStyles.links} ${navStyles.leftLinks}`}> */}
                                 <NavLink
-                                    className={`text-decoration-none text-black text-black`}
+                                    className={`text-decoration-none text-black nav-link`}
                                     // activeClassName="is-active"
                                     to="/mainApp/orderForm"
-    
+
                                 >
                                     Order
                                 </NavLink>
@@ -72,9 +72,9 @@ function Nav() {
                                 <ReactBootstrap.NavDropdown.Item className={`${navStyles.navDropdownItem}`}>
                                     <NavLink
                                         className={`text-decoration-none text-white`}
-                                        activeClassName="is-active"
+                                        // activeClassName="is-active"
                                         to="/mainApp/profilePage"
-        
+    
                                     >
                                         Edit Profile
                                     </NavLink>
@@ -84,7 +84,7 @@ function Nav() {
                                         className={`text-decoration-none text-white`}
                                         // activeClassName="is-active"
                                         to="/mainApp/paymentHistory"
-        
+    
                                     >
                                         Payment History
                                     </NavLink>
@@ -95,7 +95,7 @@ function Nav() {
                                         className={`text-decoration-none text-white`}
                                         // activeClassName="is-active"
                                         to="/"
-        
+    
                                     >
                                         Log Out
                                     </NavLink>

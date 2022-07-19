@@ -204,7 +204,7 @@ function ProfileNode() {
 
         alert(`${purpose}->\nOld: ${oldFirstName}, ${oldLastName}, ${oldEmail}, ${oldPassword}\nNew: ${currentFirstName}, ${currentLastName}, ${currentEmail}, ${currentPassword}`);
 
-        if (purpose === "saving") { handleData(); }
+        if (purpose === "saving") { handleData('/mainApp/insert'); }
     }
 
     function handleChange(event) {
