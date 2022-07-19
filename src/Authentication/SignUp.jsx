@@ -18,10 +18,36 @@ export class SignUp extends Component {
             lastNameError: '',
             emailError: '',
             passwordError: '',
+            returnedData: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    setReturnedData(data) {
+        this.setState({ returnedData: data });
+    }
+
+    handleData = async (url) => {
+        const newData = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                id_: this.state.id,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+            }),
+        }).then(res => res.json());
+        console.log('newData-');
+        console.log(newData);
+        // console.log(newData.result);
+        this.setReturnedData(newData);
     }
 
     handleChange(event) {
@@ -126,19 +152,14 @@ export class SignUp extends Component {
         const confirmPasswordValidation = this.confirmPasswordValidation(password, confirmPassword);
         alert(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}`);
 
-        // const url = '/mainApp'
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ email, password })
-        // };
-        // fetch(url, requestOptions)
-        //     .then(response => console.log('Submitted successfully'))
-        //     .catch(error => console.log('Form submit error', error))
+        if (firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation) {
+            this.handleData('/mainApp/insert');
+        }
 
         this.setState({
             id: uuid(),
         })
+        return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation;
     }
 
     render() {
