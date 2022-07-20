@@ -5,8 +5,8 @@ const insertVals = async (id, firstName, lastName, email, password, queryType = 
     let con;
     try {
         con = await oracledb.getConnection({
-            user: 'system',
-            password: 'nib*DBB',
+            user: config.user,
+            password: config.password,
         });
 
         var q = `insert into profile(id,first_name,last_name,email,password) values('${id}', '${firstName}', '${lastName}','${email}','${password}')`;
