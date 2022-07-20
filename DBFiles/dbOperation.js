@@ -9,7 +9,7 @@ const insertVals = async (id, firstName, lastName, email, password, queryType = 
             password: 'nib*DBB',
         });
 
-        var q = `insert into profile values('${id}', '${firstName}', '${lastName}','${email}','${password}')`;
+        var q = `insert into profile(id,first_name,last_name,email,password) values('${id}', '${firstName}', '${lastName}','${email}','${password}')`;
         const result = await con.execute(q, [], { autoCommit: true });
 
         return result;

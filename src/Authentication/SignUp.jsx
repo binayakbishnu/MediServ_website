@@ -19,14 +19,11 @@ export class SignUp extends Component {
             emailError: '',
             passwordError: '',
             returnedData: '',
+            backendError: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    setReturnedData(data) {
-        this.setState({ returnedData: data });
     }
 
     handleData = async (url) => {
@@ -44,10 +41,22 @@ export class SignUp extends Component {
                 password: this.state.password,
             }),
         }).then(res => res.json());
+
         console.log('newData-');
         console.log(newData);
         // console.log(newData.result);
-        this.setReturnedData(newData);
+        this.setState({ returnedData: newData });
+
+        if ('error' in newData) {
+            console.warn('Error: ' + newData.error);
+            this.setState({ backendError: newData.error });
+            alert(newData.error);
+            console.log("handleData returning false...")
+            return false;
+        }
+
+        console.log("handleData returning true...")
+        return true;
     }
 
     handleChange(event) {
@@ -150,16 +159,19 @@ export class SignUp extends Component {
         const emailValidation = this.emailValidation(email);
         const passwordValidation = this.passwordValidation(password);
         const confirmPasswordValidation = this.confirmPasswordValidation(password, confirmPassword);
-        alert(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}`);
 
+        var handleDataOutput = true;
         if (firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation) {
-            this.handleData('/mainApp/insert');
+            handleDataOutput = this.handleData('/mainApp/insert');
         }
 
         this.setState({
             id: uuid(),
         })
-        return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation;
+        alert(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}\n${handleDataOutput}`);
+        console.warn(firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && handleDataOutput);
+
+        return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && handleDataOutput;
     }
 
     render() {
