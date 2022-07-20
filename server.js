@@ -20,11 +20,11 @@ app.post('/mainApp/insert', async (req, res) => {
     console.log(result.rows.length);
     if (result.rows.length > 0) {
         console.warn('Duplicate email address');
-        res.send({error: 'Duplicate email address'});
+        res.send({ errorPresent: true, errorMessage: 'Duplicate email address' });
     } else {
         console.log('Inserting', req.body.id_, req.body.firstName, req.body.lastName, req.body.email, req.body.password);
         await dbOperation.insertVals(req.body.id_, req.body.firstName, req.body.lastName, req.body.email, req.body.password);
-        res.send(result.rows);
+        res.send({ errorPresent: false, errorMessage: 'No error' });
     }
 });
 

@@ -9,21 +9,22 @@ export class SignUp extends Component {
         super(props);
         this.state = {
             id: uuid(),
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
+            firstName: 'Binayak',
+            lastName: 'Bishnu',
+            email: 'bishnu.binayak12@gmail.com',
+            password: 'qweewq123321',
+            confirmPassword: 'qweewq123321',
             firstNameError: '',
             lastNameError: '',
             emailError: '',
             passwordError: '',
-            returnedData: '',
+            returnedData: {},
             backendError: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleData = this.handleData.bind(this);
     }
 
     handleData = async (url) => {
@@ -42,21 +43,8 @@ export class SignUp extends Component {
             }),
         }).then(res => res.json());
 
-        console.log('newData-');
-        console.log(newData);
-        // console.log(newData.result);
-        this.setState({ returnedData: newData });
-
-        if ('error' in newData) {
-            console.warn('Error: ' + newData.error);
-            this.setState({ backendError: newData.error });
-            alert(newData.error);
-            console.log("handleData returning false...")
-            return false;
-        }
-
-        console.log("handleData returning true...")
-        return true;
+        console.log('newData-', newData);
+        return newData;
     }
 
     handleChange(event) {
@@ -148,7 +136,7 @@ export class SignUp extends Component {
         }
     }
 
-    handleSubmit(event) {
+    handleSubmit = async (event) => {
         alert(`Submitted: ${this.state.id}, ${this.state.id.length},\n${this.state.firstName} ${this.state.lastName}, ${this.state.email}, ${this.state.password}, ${this.state.confirmPassword}`);
 
         event.preventDefault();
@@ -159,26 +147,32 @@ export class SignUp extends Component {
         const emailValidation = this.emailValidation(email);
         const passwordValidation = this.passwordValidation(password);
         const confirmPasswordValidation = this.confirmPasswordValidation(password, confirmPassword);
+        console.log(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}`);
+        console.warn('All validations:', firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation);
 
-        var handleDataOutput = true;
+        var handleDataOutput;
         if (firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation) {
-            handleDataOutput = this.handleData('/mainApp/insert');
+            handleDataOutput = await this.handleData('/mainApp/insert');
+        }
+        console.warn('handleDataOutput:', handleDataOutput, '\nhandleDataOutputValues: ', handleDataOutput.errorPresent, handleDataOutput.errorMessage);
+        const SQLValidation = handleDataOutput.errorPresent === false ? true : false;  //! if error is false in handleDataOutput, then no error present in SQL process
+        console.warn('With SQLValidation: ', firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && SQLValidation);
+
+        if (firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && SQLValidation) {
+            // document.getElementById("signUpForm").submit();
         }
 
         this.setState({
             id: uuid(),
         })
-        alert(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}\n${handleDataOutput}`);
-        console.warn(firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && handleDataOutput);
-
-        return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && handleDataOutput;
+        // return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation;
     }
 
     render() {
         return (
             <div className={`${signUpStyles.signUpParent} auth-wrapper`}>
                 <div className="auth-inner">
-                    <form action='/mainApp' method='POST' onSubmit={this.handleSubmit}>
+                    <form action='/mainApp' method='POST' onSubmit={this.handleSubmit} id="signUpForm">
                         <h3>Sign Up</h3>
                         <div className="mb-3">
                             <label>ID</label>
