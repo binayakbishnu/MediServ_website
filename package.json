@@ -2,7 +2,7 @@
   "name": "website",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
@@ -17,7 +17,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mdb-react-ui-kit": "^4.0.0",
-    "nodemon": "^2.0.18",
+    "nodemon": "^2.0.19",
     "oracledb": "^5.4.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
