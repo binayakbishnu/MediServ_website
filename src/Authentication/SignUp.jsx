@@ -1,33 +1,27 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import uuid from 'react-uuid'
 
 import signUpStyles from './SignUp.module.css'
 
-export class SignUp extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: uuid(),
-            firstName: 'Binayak',
-            lastName: 'Bishnu',
-            email: 'bishnu.binayak12@gmail.com',
-            password: 'qweewq123321',
-            confirmPassword: 'qweewq123321',
-            firstNameError: '',
-            lastNameError: '',
-            emailError: '',
-            passwordError: '',
-            returnedData: {},
-            backendError: '',
-        };
+function SignUp(props) {
+    const [id, setId] = useState(uuid());
+    const [oldId,setOldId] = useState(id);
+    const [firstName, setFirstName] = useState('Binayak');
+    const [lastName, setLastName] = useState('Bishnu');
+    const [email, setEmail] = useState('bishnu.binayak12@gmail.com');
+    const [password, setPassword] = useState('Password');
+    const [confirmPassword, setConfirmPassword] = useState('Password');
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleData = this.handleData.bind(this);
-    }
+    const [firstNameError, setFirstNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-    handleData = async (url) => {
+    const navigate = useNavigate();
+
+    const handleData = async (url) => {
         const newData = await fetch(url, {
             method: 'POST',
             headers: {
@@ -35,11 +29,11 @@ export class SignUp extends Component {
                 'Accept': 'application/json',
             },
             body: JSON.stringify({
-                id_: this.state.id,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: this.state.password,
+                id_: id,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
             }),
         }).then(res => res.json());
 
@@ -47,7 +41,7 @@ export class SignUp extends Component {
         return newData;
     }
 
-    handleChange(event) {
+    const handleChange = (event) => {
         const name = event.target.name;
         var value;
         if (event.target.type === 'checkbox') {
@@ -56,212 +50,228 @@ export class SignUp extends Component {
             value = event.target.value;
         }
 
-        this.setState({
-            [name]: value
-        });
+        console.error([name], value);
+        switch (name) {
+            case 'firstName':
+                setFirstName(value);
+                break;
+            case 'lastName':
+                setLastName(value);
+                break;
+            case 'email':
+                setEmail(value);
+                break;
+            case 'password':
+                setPassword(value);
+                break;
+            case 'confirmPassword':
+                setConfirmPassword(value);
+                break;
+            default:
+                console.error('Error in changes');
+        }
     }
 
-    nameValidation(nameType, name) {
-        const errorName = nameType + 'Error';
-        const regexName = /^[a-zA-Z]+$/
-        if (name === "" || name === null) {
-            this.setState({ [errorName]: 'Enter value' });
+    const firstNameValidation = () => {
+        const regexName = /^[a-zA-Z]+$/;
+        console.log(firstName);
+        if (firstName === "" || firstName === null) {
+            setFirstNameError('Enter value');
             return false;
-        } else if (/\d/.test(name)) {
-            this.setState({ [errorName]: 'No numbers allowed' });
+        } else if (/\d/.test(firstName)) {
+            setFirstNameError('No numbers allowed');
             return false;
-        } else if (!name.match(regexName)) {
-            this.setState({ [errorName]: 'No special character allowed' });
+        } else if (!firstName.match(regexName)) {
+            setFirstNameError('No special characters allowed');
             return false;
         } else {
-            this.setState({ [errorName]: '' });
+            setFirstNameError('');
+            return true;
+        }
+    }
+    const lastNameValidation = () => {
+        const regexName = /^[a-zA-Z]+$/;
+        if (lastName === "" || lastName === null) {
+            setLastNameError('Enter value');
+            return false;
+        } else if (/\d/.test(lastName)) {
+            setLastNameError('No numbers allowed');
+            return false;
+        } else if (!lastName.match(regexName)) {
+            setLastNameError('No special characters allowed');
+            return false;
+        } else {
+            setLastNameError('');
             return true;
         }
     }
 
-    emailValidation(email) {
+    const emailValidation = () => {
         // const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (email === "" || email === null) {
-            // alert("Enter email");
-            this.setState({ email: '' });
-            this.setState({ emailError: 'Enter email' });
+            setEmail('');
+            setEmailError('Enter email');
             return false;
         } else if (email.match(regexEmail)) {
-            // alert("Valid email address");
-            this.setState({ emailError: '' });
+            setEmailError('');
             return true;
         } else {
-            // alert("Invalid email address");
-            this.setState({ email: '' });
-            this.setState({ emailError: 'Invalid email' });
+            setEmail('');
+            setEmailError('Invalid email');
             return false;
         }
     }
 
-    passwordValidation(password) {
+    const passwordValidation = () => {
         if (password === "" || password === null) {
-            // alert("Enter password");
-            this.setState({ password: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ passwordError: 'Enter password' });
+            setPasswordError('Enter password');
             return false;
         } else if (password.length <= 5) {
-            // alert("Password too short");
-            this.setState({ password: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ passwordError: 'Password too short' });
+            setPasswordError('Too short');
             return false;
         } else {
-            // alert("Password ok");
-            this.setState({ passwordError: '' });
+            setPasswordError('');
             return true;
         }
     }
 
-    confirmPasswordValidation(password, confirmPassword) {
+    const confirmPasswordValidation = () => {
         if (confirmPassword === "" || confirmPassword === null) {
-            this.setState({ password: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ confirmPasswordError: 'Enter password' });
+            setConfirmPassword('');
+            setConfirmPasswordError('Enter password');
             return false;
         } else if (confirmPassword !== password) {
-            this.setState({ password: '' });
-            this.setState({ confirmPassword: '' });
-            this.setState({ confirmPasswordError: "Passwords don't match" });
+            setConfirmPassword('');
+            setConfirmPasswordError("Passwords don't match");
             return false;
         } else {
-            this.setState({ confirmPasswordError: '' });
+            setConfirmPasswordError('');
             return true;
         }
     }
 
-    handleSubmit = async (event) => {
-        alert(`Submitted: ${this.state.id}, ${this.state.id.length},\n${this.state.firstName} ${this.state.lastName}, ${this.state.email}, ${this.state.password}, ${this.state.confirmPassword}`);
+    const handleSubmit = async (event) => {
+        alert(`Submitted: ${id}, ${id.length},\n${firstName} ${lastName}, ${email}, ${password}, ${confirmPassword}`);
 
         event.preventDefault();
-        const { firstName, lastName, email, password, confirmPassword } = this.state
 
-        const firstNameValidation = this.nameValidation('firstName', firstName);
-        const lastNameValidation = this.nameValidation('lastName', lastName);
-        const emailValidation = this.emailValidation(email);
-        const passwordValidation = this.passwordValidation(password);
-        const confirmPasswordValidation = this.confirmPasswordValidation(password, confirmPassword);
-        console.log(`${firstNameValidation}, ${lastNameValidation}\n${emailValidation}, ${passwordValidation}, ${confirmPasswordValidation}`);
-        console.warn('All validations:', firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation);
+        const firstNameV = firstNameValidation();
+        const lastNameV = lastNameValidation();
+        const emailV = emailValidation();
+        const passwordV = passwordValidation();
+        const confirmPasswordV = confirmPasswordValidation();
+        console.log(`${firstNameV}, ${lastNameV}\n${emailV}, ${passwordV}, ${confirmPasswordV}`);
+        console.warn('All validations:', firstNameV && lastNameV && emailV && passwordV && confirmPasswordV);
 
         var handleDataOutput;
-        if (firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation) {
-            handleDataOutput = await this.handleData('/mainApp/insert');
+        if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV) {
+            handleDataOutput = await handleData('/mainApp/insert');
         }
         console.warn('handleDataOutput:', handleDataOutput, '\nhandleDataOutputValues: ', handleDataOutput.errorPresent, handleDataOutput.errorMessage);
-        const SQLValidation = handleDataOutput.errorPresent === false ? true : false;  //! if error is false in handleDataOutput, then no error present in SQL process
-        console.warn('With SQLValidation: ', firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && SQLValidation);
+        const SQLV = handleDataOutput.errorPresent === false ? true : false;  //! if error is false in handleDataOutput, then no error present in SQL process
+        console.warn('With SQLV: ', firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV);
 
-        if (firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation && SQLValidation) {
-            // document.getElementById("signUpForm").submit();
+        if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV) {
+            setOldId(id);
+            setId(uuid());
+            alert(oldId);
+            navigate('/mainApp');
         }
-
-        this.setState({
-            id: uuid(),
-        })
-        // return firstNameValidation && lastNameValidation && emailValidation && passwordValidation && confirmPasswordValidation;
     }
 
-    render() {
-        return (
-            <div className={`${signUpStyles.signUpParent} auth-wrapper`}>
-                <div className="auth-inner">
-                    <form action='/mainApp' method='POST' onSubmit={this.handleSubmit} id="signUpForm">
-                        <h3>Sign Up</h3>
-                        <div className="mb-3">
-                            <label>ID</label>
+    return (
+        <div className={`${signUpStyles.signUpParent} auth-wrapper`}>
+            <div className="auth-inner">
+                <form action='/mainApp' method='POST' onSubmit={handleSubmit} id="signUpForm">
+                    <h3>Sign Up</h3>
+                    <div className="mb-3">
+                        <label>ID</label>
+                        <input
+                            type="password"
+                            name="id"
+                            className="form-control"
+                            placeholder=""
+                            value={id}
+                            disabled
+                        />
+                    </div>
+                    <div className="mb-3 d-flex">
+                        <div className={`me-1`}>
+                            <label>First name</label>
                             <input
-                                type="password"
-                                name="id"
+                                type="text"
+                                name="firstName"
                                 className="form-control"
-                                placeholder=""
-                                value={this.state.id}
-                                disabled
-                            />
-                        </div>
-                        <div className="mb-3 d-flex">
-                            <div className={`me-1`}>
-                                <label>First name</label>
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    className="form-control"
-                                    placeholder="First name"
-                                    value={this.state.firstName} onChange={this.handleChange}
-                                    required
-                                />
-                                <span name="firstNameError" className="">{this.state.firstNameError}</span>
-                            </div>
-                            <div className={`ms-1`}>
-                                <label>Last name</label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    className="form-control"
-                                    placeholder="Last name"
-                                    value={this.state.lastName} onChange={this.handleChange}
-                                    required
-                                />
-                                <span name="lastNameError" className="">{this.state.lastNameError}</span>
-                            </div>
-                        </div>
-                        <div className="mb-3">
-                            <label>Email address</label>
-                            <input
-                                type="email"
-                                name="email"
-                                className="form-control"
-                                placeholder="Enter email"
-                                value={this.state.email} onChange={this.handleChange}
+                                placeholder="First name"
+                                value={firstName} onChange={handleChange}
                                 required
                             />
-                            <span name="emailError" className="">{this.state.emailError}</span>
+                            <span name="firstNameError" className="">{firstNameError}</span>
                         </div>
-                        <div className='mb-3 d-flex'>
-                            <div className="me-1">
-                                <label>Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    className="form-control"
-                                    placeholder="Enter password"
-                                    value={this.state.password} onChange={this.handleChange}
-                                    required
-                                />
-                                <span name="passwordError" className="">{this.state.passwordError}</span>
-                            </div>
-                            <div className="ms-1">
-                                <label>Confirm Password</label>
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    className="form-control"
-                                    placeholder="Re-enter Password"
-                                    value={this.state.confirmPassword} onChange={this.handleChange}
-                                    required
-                                />
-                                <span name="confirmPasswordError" className="">{this.state.confirmPasswordError}</span>
-                            </div>
+                        <div className={`ms-1`}>
+                            <label>Last name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                className="form-control"
+                                placeholder="Last name"
+                                value={lastName} onChange={handleChange}
+                                required
+                            />
+                            <span name="lastNameError" className="">{lastNameError}</span>
                         </div>
-                        <div className="d-grid mb-1">
-                            <button type="submit" className="btn btn-primary">
-                                Sign Up
-                            </button>
+                    </div>
+                    <div className="mb-3">
+                        <label>Email address</label>
+                        <input
+                            type="email"
+                            name="email"
+                            className="form-control"
+                            placeholder="Enter email"
+                            value={email} onChange={handleChange}
+                            required
+                        />
+                        <span name="emailError" className="">{emailError}</span>
+                    </div>
+                    <div className='mb-3 d-flex'>
+                        <div className="me-1">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className="form-control"
+                                placeholder="Enter password"
+                                value={password} onChange={handleChange}
+                                required
+                            />
+                            <span name="passwordError" className="">{passwordError}</span>
                         </div>
-                        <div className="forgot-password text-right">
-                            Already registered? <Link to="/login">Login</Link>
+                        <div className="ms-1">
+                            <label>Confirm Password</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                className="form-control"
+                                placeholder="Re-enter Password"
+                                value={confirmPassword} onChange={handleChange}
+                                required
+                            />
+                            <span name="confirmPasswordError" className="">{confirmPasswordError}</span>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div className="d-grid mb-1">
+                        <button type="submit" className="btn btn-primary">
+                            Sign Up
+                        </button>
+                    </div>
+                    <div className="forgot-password text-right">
+                        Already registered? <Link to="/login">Login</Link>
+                    </div>
+                </form>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default SignUp
