@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+// import { createHashHistory } from 'history'
 import uuid from 'react-uuid'
 
 import signUpStyles from './SignUp.module.css'
 
 function SignUp(props) {
     const [id, setId] = useState(uuid());
-    const [oldId,setOldId] = useState(id);
+    const [oldId, setOldId] = useState(id);
     const [firstName, setFirstName] = useState('Binayak');
     const [lastName, setLastName] = useState('Bishnu');
     const [email, setEmail] = useState('bishnu.binayak12@gmail.com');
@@ -20,6 +21,7 @@ function SignUp(props) {
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
     const navigate = useNavigate();
+    // const history = createHashHistory();
 
     const handleData = async (url) => {
         const newData = await fetch(url, {
@@ -176,7 +178,15 @@ function SignUp(props) {
             setOldId(id);
             setId(uuid());
             alert(oldId);
-            navigate('/mainApp');
+            
+            navigate('/moreDetails');
+
+            /* history.push({
+                pathname: '/moreDetails',
+                state: {
+                    id: oldId,
+                },
+            }); */
         }
     }
 

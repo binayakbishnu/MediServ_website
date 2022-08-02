@@ -4,7 +4,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+// import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ConsultationForm from './ConsultationPage/ConsultationForm';
 import HomePage from './HomePage/HomePage';
@@ -15,6 +15,7 @@ import Auth from './Authentication/Auth';
 import Login from './Authentication/Login';
 import SignUp from './Authentication/SignUp';
 import ForgotPassword from './Authentication/ForgotPassword';
+import MoreDetails from './Authentication/MoreDetails';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -27,6 +28,7 @@ root.render(
           <Route path="login" element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
           <Route path="forgotPassword" element={<ForgotPassword />} />
+          <Route path="moreDetails" element={<MoreDetails />} />
         </Route>
         <Route path="/mainApp" element={<App />}>
           <Route path="/mainApp" element={<HomePage />} />
