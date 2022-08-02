@@ -3,24 +3,48 @@ import { Link, useNavigate } from 'react-router-dom'
 // import { createHashHistory } from 'history'
 import uuid from 'react-uuid'
 
+import DOB from './DOB.json'
+import statewiseCities from './statewiseCities.json'
+
 import moreDetailsStyles from './MoreDetails.module.css'
 
 function MoreDetails(props) {
     const [id, setId] = useState(uuid());
-    const [oldId, setOldId] = useState(id);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [DOBDate, setDOBDate] = useState(1);
+    const [DOBMonth, setDOBMonth] = useState('');
+    const [DOBYear, setDOBYear] = useState(2000);
+    const [leapYear, setLeapYear] = useState(false);
+    const [phoneNo, setphoneNo] = useState('');
+    const [street, setStreet] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
 
-    const [firstNameError, setFirstNameError] = useState('');
-    const [lastNameError, setLastNameError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [DOBDateError, setDOBDateError] = useState('');
+    const [DOBMonthError, setDOBMonthError] = useState('');
+    const [DOBYearError, setDOBYearError] = useState('');
+    const [phoneNoError, setPhoneNoError] = useState('');
+    const [streetError, setStreetError] = useState('');
+    const [cityError, setCityError] = useState('');
+    const [stateError, setStateError] = useState('');
 
     const navigate = useNavigate();
+
+    const checkLeapYear = (year) => {
+        const leap = new Date(year, 1, 29).getDate() === 29;
+        if (leap) {
+            console.log(year + ' is a leap year');
+            DOB.leapOrNot = true;
+            DOB.months.February.days = 29;
+            setLeapYear(true);
+            console.log(DOB);
+        } else {
+            console.log(year + ' is not a leap year');
+            DOB.leapOrNot = false;
+            DOB.months.February.days = 28;
+            setLeapYear(false);
+            console.log(DOB);
+        }
+    }
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -31,37 +55,143 @@ function MoreDetails(props) {
             value = event.target.value;
         }
 
-        console.error([name], value);
+        console.warn(name, value);
         switch (name) {
-            case 'firstName':
-                setFirstName(value);
+            case 'DOBDate':
+                setDOBDate(value);
+                setDOBDateError('');
                 break;
-            case 'lastName':
-                setLastName(value);
+            case 'DOBMonth':
+                var value2 = value.split(' ')[0];
+                console.log(value2);
+                value = value2.trim();
+                setDOBMonth(value);
+                setDOBMonthError('');
                 break;
-            case 'email':
-                setEmail(value);
+            case 'DOBYear':
+                setDOBYear(value);
+                checkLeapYear(value);
+                setDOBYearError('');
                 break;
-            case 'password':
-                setPassword(value);
+            case 'phoneNo':
+                setphoneNo(value);
+                setPhoneNoError('');
                 break;
-            case 'confirmPassword':
-                setConfirmPassword(value);
+            case 'street':
+                setStreet(value);
+                setStreetError('');
+                break;
+            case 'city':
+                setCity(value);
+                setCityError('');
+                break;
+            case 'state':
+                setState(value);
+                setStateError('');
                 break;
             default:
-                console.error('Error in changes');
+                console.error('Error in handleChange switch-case');
+        }
+        console.warn(name, value);
+    }
+
+    const dateValidation = () => {
+        var flag = true;
+        if (DOBYear <= 999) {
+            setDOBYearError('Check year');
+            flag = false;
+        }
+
+        if (DOBMonth === '') {
+            setDOBMonthError('Select month');
+            flag = false;
+        }
+        else if (DOBMonth !== 'January' && DOBMonth !== 'February' && DOBMonth !== 'March' && DOBMonth !== 'April' && DOBMonth !== 'May' && DOBMonth !== 'June' && DOBMonth !== 'July' && DOBMonth !== 'August' && DOBMonth !== "September" && DOBMonth !== 'October' && DOBMonth !== 'November' && DOBMonth !== 'December') {
+            setDOBMonthError('Check month');
+            flag = false;
+        }
+
+        if (DOBDate <= 0) {
+            setDOBDateError('Date always more that 0');
+            flag = false;
+        }
+        if (DOBDate > DOB.months[DOBMonth]?.days) {
+            setDOBDateError('Date exceeds');
+            flag = false;
+        }
+        if (leapYear === false && DOBMonth === 'February' && DOBDate > 28) {
+            setDOBDateError('Date exceeds');
+            flag = false;
+        }
+        if (leapYear === true && DOBMonth === 'February' && DOBDate > 29) {
+            setDOBDateError('Date exceeds');
+            flag = false;
+        }
+
+        return flag;
+    }
+
+    const phoneNoValidation = () => {
+        if (phoneNo === '') {
+            setPhoneNoError('Enter phone no');
+            return false;
+        } else if (phoneNo.length !== 10) {
+            setPhoneNoError('Only 10 digits');
+            return false;
+        } else {
+            return true;
         }
     }
 
-    const handleSubmit = () => { navigate('./mainApp'); }
+    const stateValidation = () => {
+        if (state === '') {
+            setStateError('Enter state');
+            return false;
+        } else {
+            return true;
+        }
+    }
+    const cityValidation = () => {
+        if (city === '') {
+            setCityError('Enter city');
+            return false;
+        } else {
+            return true;
+        }
+    }
+    const streetValidation = () => {
+        if (street === '') {
+            setStreetError('Enter street');
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const dateV = dateValidation();
+        const phoneNoV = phoneNoValidation();
+        const stateV = stateValidation();
+        const cityV = cityValidation();
+        const streetV = streetValidation();
+
+        console.log(dateV, phoneNoV, stateV, cityV, streetV);
+        console.warn(dateV && phoneNoV && stateV && cityV && streetV);
+
+        if (dateV && phoneNoV && stateV && cityV && streetV) {
+            alert(`Submitting...\n${id}\n${DOBDate} ${DOBMonth} ${DOBYear}\n${phoneNo}\n${street} ${city} ${state}`)
+            navigate('/mainApp');
+        }
+    }
 
     return (
         <div>
-            {/* <p>props.location.state.id</p> */}
             <div className={`${moreDetailsStyles.moreDetailsParent} auth-wrapper`}>
                 <div className="auth-inner">
                     <form action='/mainApp' method='POST' onSubmit={handleSubmit} id="signUpForm">
-                        <h3>Sign Up</h3>
+                        <h3>More Details</h3>
                         <div className="mb-3">
                             <label>ID</label>
                             <input
@@ -73,77 +203,119 @@ function MoreDetails(props) {
                                 disabled
                             />
                         </div>
-                        <div className="mb-3 d-flex">
+                        <div className="mb-3 d-flex justify-content-between">
                             <div className={`me-1`}>
-                                <label>First name</label>
+                                <label>Year</label>
+                                <input
+                                    type="number"
+                                    name="DOBYear"
+                                    className="form-control"
+                                    placeholder="Enter year"
+                                    value={DOBYear} onChange={handleChange}
+                                // required
+                                />
+                                <span name="DOBYearError" className="">{DOBYearError}</span>
+                            </div>
+                            <div className={`me-1`}>
+                                <label>Month</label>
                                 <input
                                     type="text"
-                                    name="firstName"
+                                    name="DOBMonth"
                                     className="form-control"
-                                    placeholder="First name"
-                                    value={firstName} onChange={handleChange}
-                                    required
+                                    placeholder="Enter month"
+                                    value={DOBMonth} onChange={handleChange}
+                                    // required
+                                    list="monthList"
                                 />
-                                <span name="firstNameError" className="">{firstNameError}</span>
+                                <span name="DOBMonthError" className="">{DOBMonthError}</span>
+                                <datalist id="monthList">
+                                    {Object.keys(DOB.months).map((month, key) => (
+                                        <option value={DOB.months[month].name + " (" + DOB.months[month].days + ")"} key={DOB.months[month].number} />
+                                    ))}
+                                </datalist>
                             </div>
-                            <div className={`ms-1`}>
-                                <label>Last name</label>
+                            <div className={`me-1`}>
+                                <label>Date</label>
                                 <input
-                                    type="text"
-                                    name="lastName"
+                                    type="number"
+                                    name="DOBDate"
                                     className="form-control"
-                                    placeholder="Last name"
-                                    value={lastName} onChange={handleChange}
-                                    required
+                                    placeholder="Enter date"
+                                    value={DOBDate} onChange={handleChange}
+                                // required
                                 />
-                                <span name="lastNameError" className="">{lastNameError}</span>
+                                <span name="DOBDateError" className="">{DOBDateError}</span>
                             </div>
+
                         </div>
                         <div className="mb-3">
-                            <label>Email address</label>
+                            <label>Phone no</label>
                             <input
-                                type="email"
-                                name="email"
+                                type="text"
+                                name="phoneNo"
                                 className="form-control"
-                                placeholder="Enter email"
-                                value={email} onChange={handleChange}
-                                required
+                                placeholder="Enter phone no"
+                                value={phoneNo} onChange={handleChange}
+                            // required
                             />
-                            <span name="emailError" className="">{emailError}</span>
+                            <span name="phoneNoError" className="">{phoneNoError}</span>
                         </div>
-                        <div className='mb-3 d-flex'>
-                            <div className="me-1">
-                                <label>Password</label>
+                        <div className="mb-3 d-flex justify-content-between">
+                            <div className={`me-1`}>
+                                <label>State</label>
                                 <input
-                                    type="password"
-                                    name="password"
+                                    type="text"
+                                    name="state"
                                     className="form-control"
-                                    placeholder="Enter password"
-                                    value={password} onChange={handleChange}
-                                    required
+                                    placeholder="Enter state"
+                                    value={state} onChange={handleChange}
+                                    // required
+                                    list="stateList"
                                 />
-                                <span name="passwordError" className="">{passwordError}</span>
+                                <datalist id="stateList">
+                                    {Object.keys(statewiseCities).map((state, key) => (
+                                        <option value={state} key={key} />
+                                    ))}
+                                </datalist>
+                                <span name="stateError" className="">{stateError}</span>
                             </div>
-                            <div className="ms-1">
-                                <label>Confirm Password</label>
+                            <div className={`me-1`}>
+                                <label>City</label>
                                 <input
-                                    type="password"
-                                    name="confirmPassword"
+                                    type="text"
+                                    name="city"
                                     className="form-control"
-                                    placeholder="Re-enter Password"
-                                    value={confirmPassword} onChange={handleChange}
-                                    required
+                                    placeholder="Enter city"
+                                    value={city} onChange={handleChange}
+                                    // required
+                                    list="cityList"
                                 />
-                                <span name="confirmPasswordError" className="">{confirmPasswordError}</span>
+                                <datalist id="cityList">
+                                    {statewiseCities[state]?.map((city, key) => {
+                                        return (
+                                            <option value={city} key={key} />
+                                        )
+                                    })}
+                                </datalist>
+                                <span name="cityError" className="">{cityError}</span>
+                            </div>
+                            <div className={`me-1`}>
+                                <label>Street</label>
+                                <input
+                                    type="text"
+                                    name="street"
+                                    className="form-control"
+                                    placeholder="Enter street"
+                                    value={street} onChange={handleChange}
+                                // required
+                                />
+                                <span name="streetError" className="">{streetError}</span>
                             </div>
                         </div>
                         <div className="d-grid mb-1">
                             <button type="submit" className="btn btn-primary">
-                                Sign Up
+                                Submit
                             </button>
-                        </div>
-                        <div className="forgot-password text-right">
-                            Already registered? <Link to="/login">Login</Link>
                         </div>
                     </form>
                 </div>
