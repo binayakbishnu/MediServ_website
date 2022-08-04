@@ -8,7 +8,7 @@ import moreDetailsStyles from './MoreDetails.module.css'
 
 function MoreDetails(props) {
     const location = useLocation();
-    const [id, setId] = useState(location.state.id);
+    const id = useState(location.state.id);
     const [DOBDate, setDOBDate] = useState(11);
     const [DOBMonth, setDOBMonth] = useState('September');
     const [DOBYear, setDOBYear] = useState(2002);
