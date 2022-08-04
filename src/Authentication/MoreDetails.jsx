@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-// import { createHashHistory } from 'history'
-import uuid from 'react-uuid'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import DOB from './DOB.json'
 import statewiseCities from './statewiseCities.json'
@@ -9,15 +7,19 @@ import statewiseCities from './statewiseCities.json'
 import moreDetailsStyles from './MoreDetails.module.css'
 
 function MoreDetails(props) {
-    const [id, setId] = useState(uuid());
-    const [DOBDate, setDOBDate] = useState(1);
-    const [DOBMonth, setDOBMonth] = useState('');
-    const [DOBYear, setDOBYear] = useState(2000);
+    const location = useLocation();
+    const [id, setId] = useState(location.state.id);
+    const [DOBDate, setDOBDate] = useState(11);
+    const [DOBMonth, setDOBMonth] = useState('September');
+    const [DOBYear, setDOBYear] = useState(2002);
     const [leapYear, setLeapYear] = useState(false);
-    const [phoneNo, setphoneNo] = useState('');
-    const [street, setStreet] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
+    const [phoneNo, setphoneNo] = useState(1234567890);
+    const [street, setStreet] = useState('VIT Road');
+    const [city, setCity] = useState('Katpadi');
+    const [state, setState] = useState('Tamil Nadu');
+
+    DOB.leapOrNot = leapYear === true ? true : false;
+    DOB.months.February.days = leapYear === true ? 29 : 28;
 
     const [DOBDateError, setDOBDateError] = useState('');
     const [DOBMonthError, setDOBMonthError] = useState('');
@@ -36,13 +38,11 @@ function MoreDetails(props) {
             DOB.leapOrNot = true;
             DOB.months.February.days = 29;
             setLeapYear(true);
-            console.log(DOB);
         } else {
             console.log(year + ' is not a leap year');
             DOB.leapOrNot = false;
             DOB.months.February.days = 28;
             setLeapYear(false);
-            console.log(DOB);
         }
     }
 
@@ -187,138 +187,136 @@ function MoreDetails(props) {
     }
 
     return (
-        <div>
-            <div className={`${moreDetailsStyles.moreDetailsParent} auth-wrapper`}>
-                <div className="auth-inner">
-                    <form action='/mainApp' method='POST' onSubmit={handleSubmit} id="signUpForm">
-                        <h3>More Details</h3>
-                        <div className="mb-3">
-                            <label>ID</label>
+        <div className={`${moreDetailsStyles.moreDetailsParent} auth-wrapper`}>
+            <div className="auth-inner">
+                <form action='/mainApp' method='POST' onSubmit={handleSubmit} id="signUpForm">
+                    <h3>More Details</h3>
+                    <div className="mb-3">
+                        <label>ID</label>
+                        <input
+                            // type="password"
+                            name="id"
+                            className="form-control"
+                            placeholder=""
+                            value={id}
+                            disabled
+                        />
+                    </div>
+                    <div className="mb-3 d-flex justify-content-between">
+                        <div className={`me-1`}>
+                            <label>Year</label>
                             <input
-                                type="password"
-                                name="id"
+                                type="number"
+                                name="DOBYear"
                                 className="form-control"
-                                placeholder=""
-                                value={id}
-                                disabled
-                            />
-                        </div>
-                        <div className="mb-3 d-flex justify-content-between">
-                            <div className={`me-1`}>
-                                <label>Year</label>
-                                <input
-                                    type="number"
-                                    name="DOBYear"
-                                    className="form-control"
-                                    placeholder="Enter year"
-                                    value={DOBYear} onChange={handleChange}
-                                // required
-                                />
-                                <span name="DOBYearError" className="">{DOBYearError}</span>
-                            </div>
-                            <div className={`me-1`}>
-                                <label>Month</label>
-                                <input
-                                    type="text"
-                                    name="DOBMonth"
-                                    className="form-control"
-                                    placeholder="Enter month"
-                                    value={DOBMonth} onChange={handleChange}
-                                    // required
-                                    list="monthList"
-                                />
-                                <span name="DOBMonthError" className="">{DOBMonthError}</span>
-                                <datalist id="monthList">
-                                    {Object.keys(DOB.months).map((month, key) => (
-                                        <option value={DOB.months[month].name + " (" + DOB.months[month].days + ")"} key={DOB.months[month].number} />
-                                    ))}
-                                </datalist>
-                            </div>
-                            <div className={`me-1`}>
-                                <label>Date</label>
-                                <input
-                                    type="number"
-                                    name="DOBDate"
-                                    className="form-control"
-                                    placeholder="Enter date"
-                                    value={DOBDate} onChange={handleChange}
-                                // required
-                                />
-                                <span name="DOBDateError" className="">{DOBDateError}</span>
-                            </div>
-
-                        </div>
-                        <div className="mb-3">
-                            <label>Phone no</label>
-                            <input
-                                type="text"
-                                name="phoneNo"
-                                className="form-control"
-                                placeholder="Enter phone no"
-                                value={phoneNo} onChange={handleChange}
+                                placeholder="Enter year"
+                                value={DOBYear} onChange={handleChange}
                             // required
                             />
-                            <span name="phoneNoError" className="">{phoneNoError}</span>
+                            <span name="DOBYearError" className="">{DOBYearError}</span>
                         </div>
-                        <div className="mb-3 d-flex justify-content-between">
-                            <div className={`me-1`}>
-                                <label>State</label>
-                                <input
-                                    type="text"
-                                    name="state"
-                                    className="form-control"
-                                    placeholder="Enter state"
-                                    value={state} onChange={handleChange}
-                                    // required
-                                    list="stateList"
-                                />
-                                <datalist id="stateList">
-                                    {Object.keys(statewiseCities).map((state, key) => (
-                                        <option value={state} key={key} />
-                                    ))}
-                                </datalist>
-                                <span name="stateError" className="">{stateError}</span>
-                            </div>
-                            <div className={`me-1`}>
-                                <label>City</label>
-                                <input
-                                    type="text"
-                                    name="city"
-                                    className="form-control"
-                                    placeholder="Enter city"
-                                    value={city} onChange={handleChange}
-                                    // required
-                                    list="cityList"
-                                />
-                                <datalist id="cityList">
-                                    {statewiseCities[state]?.map((city, key) => {
-                                        return (
-                                            <option value={city} key={key} />
-                                        )
-                                    })}
-                                </datalist>
-                                <span name="cityError" className="">{cityError}</span>
-                            </div>
-                            <div className={`me-1`}>
-                                <label>Street</label>
-                                <input
-                                    type="text"
-                                    name="street"
-                                    className="form-control"
-                                    placeholder="Enter street"
-                                    value={street} onChange={handleChange}
+                        <div className={`me-1`}>
+                            <label>Month</label>
+                            <input
+                                type="text"
+                                name="DOBMonth"
+                                className="form-control"
+                                placeholder="Enter month"
+                                value={DOBMonth} onChange={handleChange}
                                 // required
-                                />
-                                <span name="streetError" className="">{streetError}</span>
-                            </div>
+                                list="monthList"
+                            />
+                            <span name="DOBMonthError" className="">{DOBMonthError}</span>
+                            <datalist id="monthList">
+                                {Object.keys(DOB.months).map((month, key) => (
+                                    <option value={DOB.months[month].name + " (" + DOB.months[month].days + ")"} key={DOB.months[month].number} />
+                                ))}
+                            </datalist>
                         </div>
-                        <div className="d-grid mb-1">
-                            <button type="submit" className="btn btn-primary">
-                                Submit
-                            </button>
+                        <div className={`me-1`}>
+                            <label>Date</label>
+                            <input
+                                type="number"
+                                name="DOBDate"
+                                className="form-control"
+                                placeholder="Enter date"
+                                value={DOBDate} onChange={handleChange}
+                            // required
+                            />
+                            <span name="DOBDateError" className="">{DOBDateError}</span>
                         </div>
-                    </form>
-                </div>
+
+                    </div>
+                    <div className="mb-3">
+                        <label>Phone no</label>
+                        <input
+                            type="text"
+                            name="phoneNo"
+                            className="form-control"
+                            placeholder="Enter phone no"
+                            value={phoneNo} onChange={handleChange}
+                        // required
+                        />
+                        <span name="phoneNoError" className="">{phoneNoError}</span>
+                    </div>
+                    <div className="mb-3 d-flex justify-content-between">
+                        <div className={`me-1`}>
+                            <label>State</label>
+                            <input
+                                type="text"
+                                name="state"
+                                className="form-control"
+                                placeholder="Enter state"
+                                value={state} onChange={handleChange}
+                                // required
+                                list="stateList"
+                            />
+                            <datalist id="stateList">
+                                {Object.keys(statewiseCities).map((state, key) => (
+                                    <option value={state} key={key} />
+                                ))}
+                            </datalist>
+                            <span name="stateError" className="">{stateError}</span>
+                        </div>
+                        <div className={`me-1`}>
+                            <label>City</label>
+                            <input
+                                type="text"
+                                name="city"
+                                className="form-control"
+                                placeholder="Enter city"
+                                value={city} onChange={handleChange}
+                                // required
+                                list="cityList"
+                            />
+                            <datalist id="cityList">
+                                {statewiseCities[state]?.map((city, key) => {
+                                    return (
+                                        <option value={city} key={key} />
+                                    )
+                                })}
+                            </datalist>
+                            <span name="cityError" className="">{cityError}</span>
+                        </div>
+                        <div className={`me-1`}>
+                            <label>Street</label>
+                            <input
+                                type="text"
+                                name="street"
+                                className="form-control"
+                                placeholder="Enter street"
+                                value={street} onChange={handleChange}
+                            // required
+                            />
+                            <span name="streetError" className="">{streetError}</span>
+                        </div>
+                    </div>
+                    <div className="d-grid mb-1">
+                        <button type="submit" className="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     )

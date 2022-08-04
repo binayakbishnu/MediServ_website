@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-// import { createHashHistory } from 'history'
 import uuid from 'react-uuid'
 
 import signUpStyles from './SignUp.module.css'
@@ -177,16 +176,7 @@ function SignUp(props) {
         if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV) {
             setOldId(id);
             setId(uuid());
-            alert(oldId);
-            
-            navigate('/moreDetails');
-
-            /* history.push({
-                pathname: '/moreDetails',
-                state: {
-                    id: oldId,
-                },
-            }); */
+            navigate('/moreDetails', { state: { id: oldId } });
         }
     }
 
@@ -198,7 +188,7 @@ function SignUp(props) {
                     <div className="mb-3">
                         <label>ID</label>
                         <input
-                            type="password"
+                            // type="password"
                             name="id"
                             className="form-control"
                             placeholder=""
