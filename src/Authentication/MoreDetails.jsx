@@ -31,6 +31,29 @@ function MoreDetails(props) {
 
     const navigate = useNavigate();
 
+    const handleData = async (url = '/moreDetails') => {
+        const newData = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                id_: id,
+                year: DOBYear,
+                month: DOBMonth,
+                date: DOBDate,
+                phoneNo: phoneNo,
+                state: state,
+                city: city,
+                street: street,
+            }),
+        }).then(res => res.json());
+
+        console.log('newData-', newData);
+        return newData;
+    }
+
     const checkLeapYear = (year) => {
         const leap = new Date(year, 1, 29).getDate() === 29;
         if (leap) {
@@ -132,10 +155,13 @@ function MoreDetails(props) {
     }
 
     const phoneNoValidation = () => {
-        if (phoneNo === '') {
+        var phoneString = phoneNo;
+        phoneString = phoneString.toString();
+        console.log(typeof(phoneString))
+        if (phoneString === '') {
             setPhoneNoError('Enter phone no');
             return false;
-        } else if (phoneNo.length !== 10) {
+        } else if (!phoneString.match(/^\d{10}$/)) {
             setPhoneNoError('Only 10 digits');
             return false;
         } else {
@@ -176,13 +202,19 @@ function MoreDetails(props) {
         const stateV = stateValidation();
         const cityV = cityValidation();
         const streetV = streetValidation();
-
         console.log(dateV, phoneNoV, stateV, cityV, streetV);
         console.warn(dateV && phoneNoV && stateV && cityV && streetV);
 
+        var handleDataOutput;
         if (dateV && phoneNoV && stateV && cityV && streetV) {
-            alert(`Submitting...\n${id}\n${DOBDate} ${DOBMonth} ${DOBYear}\n${phoneNo}\n${street} ${city} ${state}`)
-            navigate('/mainApp');
+            handleDataOutput = await handleData();
+            const SQLV = handleDataOutput.errorPresent === false ? true : false;  //! if error is false in handleDataOutput, then no error present in SQL process
+            console.warn('With SQLV: ', dateV && phoneNoV && stateV && cityV && streetV && SQLV);
+    
+            if (dateV && phoneNoV && stateV && cityV && streetV && SQLV) {
+                alert(`Submitting...\n${id}\n${DOBDate} ${DOBMonth} ${DOBYear}\n${phoneNo}\n${street} ${city} ${state}`)
+                navigate('/mainApp');
+            }
         }
     }
 

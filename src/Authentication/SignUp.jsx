@@ -20,9 +20,8 @@ function SignUp(props) {
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
     const navigate = useNavigate();
-    // const history = createHashHistory();
 
-    const handleData = async (url) => {
+    const handleData = async (url='/signUp') => {
         const newData = await fetch(url, {
             method: 'POST',
             headers: {
@@ -153,10 +152,8 @@ function SignUp(props) {
     }
 
     const handleSubmit = async (event) => {
-        alert(`Submitted: ${id}, ${id.length},\n${firstName} ${lastName}, ${email}, ${password}, ${confirmPassword}`);
-
         event.preventDefault();
-
+        
         const firstNameV = firstNameValidation();
         const lastNameV = lastNameValidation();
         const emailV = emailValidation();
@@ -167,16 +164,17 @@ function SignUp(props) {
 
         var handleDataOutput;
         if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV) {
-            handleDataOutput = await handleData('/mainApp/insert');
-        }
-        console.warn('handleDataOutput:', handleDataOutput, '\nhandleDataOutputValues: ', handleDataOutput.errorPresent, handleDataOutput.errorMessage);
-        const SQLV = handleDataOutput.errorPresent === false ? true : false;  //! if error is false in handleDataOutput, then no error present in SQL process
-        console.warn('With SQLV: ', firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV);
-
-        if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV) {
-            setOldId(id);
-            setId(uuid());
-            navigate('/moreDetails', { state: { id: oldId } });
+            handleDataOutput = await handleData();
+            const SQLV = handleDataOutput.errorPresent === false ? true : false;  //! if error is false in handleDataOutput, then no error present in SQL process
+            if (handleDataOutput.errorPresent===true)   setEmailError(handleDataOutput.errorMessage);
+            console.warn('With SQLV: ', firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV);
+            
+            if (firstNameV && lastNameV && emailV && passwordV && confirmPasswordV && SQLV) {
+                alert(`Submitting: ${id}, ${id.length},\n${firstName} ${lastName}, ${email}, ${password}, ${confirmPassword}`);
+                setOldId(id);
+                setId(uuid());
+                navigate('/moreDetails', { state: { id: oldId } });
+            }
         }
     }
 
